@@ -22,14 +22,16 @@ export function reducer(
   }
 
   if (action.type === "TRANSFER_WORKER") {
-    const { workerId, teamId } = action;
+    console.log(action, "asasd");
+
+    const { transferWorkers, teamId } = action;
     return {
       ...state,
-      workers: state.workers.map((item) => {
-        if (item.id === workerId) {
-          return { ...item, teamId };
+      workers: state.workers.map((worker) => {
+        if (transferWorkers.includes(worker.id)) {
+          return { ...worker, teamId };
         }
-        return item;
+        return worker;
       }),
     };
   }
@@ -44,13 +46,6 @@ export function reducer(
         }
         return item;
       }),
-    };
-  }
-
-  if (action.type === "ADD_COMPANY") {
-    return {
-      ...state,
-      company: [...state.company, action.company],
     };
   }
 

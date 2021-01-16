@@ -17,7 +17,7 @@ interface IValues {
   team: number;
 }
 
-export function WorkerInfo({ branchId }: IBranchIdProps) {
+export function WorkerAdd({ branchId }: IBranchIdProps) {
   const teams = useSelector((state: IApplicationState) => {
     return state.teams.filter((item) => item.branchId === branchId);
   });

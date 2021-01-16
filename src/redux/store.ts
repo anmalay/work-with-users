@@ -161,12 +161,12 @@ export const initialState: IApplicationState = {
     },
     {
       id: 3,
-      name: "Южный филиал",
+      name: "Восточный филиал",
       companyId: 1,
     },
     {
       id: 4,
-      name: "Северный филиал",
+      name: "Западный филиал",
       companyId: 1,
     },
   ],

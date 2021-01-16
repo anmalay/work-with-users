@@ -9,18 +9,18 @@ const SELECTED_TEAM = "SELECTED_TEAM";
 
 export interface ITransferWorkerAction {
   type: typeof TRANSFER_WORKER;
-  workerId: IWorkerId;
+  transferWorkers: IWorkerId[];
   teamId: ITeamId;
 }
 
 export const transferWorker = function (
-  workerId: IWorkerId,
-  teamId: ITeamId
+  teamId: ITeamId,
+  transferWorkers: IWorkerId[]
 ): ITransferWorkerAction {
   return {
     type: "TRANSFER_WORKER",
-    workerId,
     teamId,
+    transferWorkers,
   };
 };
 
@@ -70,18 +70,6 @@ export const editWorker = function (
   };
 };
 
-export interface IAddCompanyAction {
-  type: typeof ADD_COMPANY;
-  company: ICompany;
-}
-
-export const addCompany = function (company: ICompany): IAddCompanyAction {
-  return {
-    type: "ADD_COMPANY",
-    company,
-  };
-};
-
 export interface ISelectedTeamAction {
   type: typeof SELECTED_TEAM;
   selectedTeamId: ITeamId;
@@ -99,7 +87,6 @@ export type IWorkerAction =
   | IAddWorkerAction
   | IRemoveWorkerAction
   | IEditWorkerAction
-  | IAddCompanyAction
   | ISelectedTeamAction;
 
 // https://github.com/erikras/ducks-modular-redux
