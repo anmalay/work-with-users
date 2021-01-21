@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { ITeamId, IApplicationState, IWorkerId, ITeam } from "./redux/store";
+import { IApplicationState, IWorkerId } from "./redux/store";
 import { WorkerAdd } from "./WorkerAdd";
 import { WorkersTransfer } from "./WorkersTransfer";
 
@@ -56,7 +56,7 @@ export function Workers() {
     <div>
       <ul>
         {selectedWorkers.map((worker) => (
-          <div>
+          <div key={worker.id}>
             <label>
               {showFormTransfer && (
                 <input

@@ -4,7 +4,6 @@ import {
   ITeamId,
   IApplicationState,
   IWorkerId,
-  ITeam,
   IBranchId,
 } from "./redux/store";
 
@@ -18,12 +17,12 @@ export function WorkersTransfer({ transfer, branchId }: IWorkersTransferProps) {
     return teams.filter((t) => t.branchId === branchId);
   });
 
-  const [chosenTeam, setChosenTeam] = useState(0);
+  const [chosenTeam, setChosenTeam] = useState("");
 
   const handleClickChoose = (
     event: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>
   ) => {
-    const teamId = +event.target.value;
+    const teamId = event.target.value;
     setChosenTeam(teamId);
   };
 
@@ -40,7 +39,7 @@ export function WorkersTransfer({ transfer, branchId }: IWorkersTransferProps) {
   return (
     <form>
       {chooseTeam.map((team) => (
-        <label>
+        <label key={team.id}>
           <input
             type="radio"
             name={team.name}

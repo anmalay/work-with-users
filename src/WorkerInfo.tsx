@@ -1,6 +1,11 @@
 import React, { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { IApplicationState, IBranchId } from "./redux/store";
+import {
+  IApplicationState,
+  IBranchId,
+  initialState,
+  IWorker,
+} from "./redux/store";
 
 interface IBranchIdProps {
   branchId: IBranchId;
@@ -9,31 +14,19 @@ interface IBranchIdProps {
 interface IValues {
   name: string;
   lastName: string;
-  team: string;
+  team: number;
 }
 
-export const getKeys = Object.keys as <T extends object>(
-  obj: T
-) => Array<keyof T>;
-
-const initialValues: IValues = {
-  name: "",
-  lastName: "",
-  team: "-1",
-} as const;
-
-// https://formik.org/docs/api/field
-
-const validators: { [key in keyof IValues]: (s: string) => boolean } = {
-  name: (s) => /^[a-zа-яё\-]+$/i.test(s),
-  lastName: (s) => /^[a-zа-яё\-]+$/i.test(s),
-  team: (s) => /^\d+$/.test(s),
-};
-
-export function WorkerAdd({ branchId }: IBranchIdProps) {
+export function WorkerInfo({ branchId }: IBranchIdProps) {
   const teams = useSelector((state: IApplicationState) => {
     return state.teams.filter((item) => item.branchId === branchId);
   });
+
+  const initialValues = {
+    name: "",
+    lastName: "",
+    team: 0,
+  };
 
   const [values, setValues] = useState(initialValues);
 
@@ -63,14 +56,6 @@ export function WorkerAdd({ branchId }: IBranchIdProps) {
     }));
   }
 
-  const disabled = getKeys(initialValues).some(
-    (key) => values[key] === initialValues[key]
-  );
-
-  // const disabled = (["name", "lastName", "team"] as const).some(
-  //   (key) => values[key] === initialValues[key]
-  // );
-
   return (
     <div>
       <form>
@@ -80,11 +65,6 @@ export function WorkerAdd({ branchId }: IBranchIdProps) {
             value={values.name}
             name="name"
             type="text"
-            style={{
-              outline: `2px solid ${
-                validators.name(values.name) ? "green" : "red"
-              }`,
-            }}
             onChange={handleChange}
           />
         </label>
@@ -100,28 +80,15 @@ export function WorkerAdd({ branchId }: IBranchIdProps) {
         <label>
           Номер бригады
           <select value={values.team} name="team" onChange={handleChange}>
-            <option disabled key={-1} value={-1}>
-              Номер бригады
-            </option>
             {teams.map((item) => {
-              return (
-                <option key={item.id} value={item.id}>
-                  {item.name}
-                </option>
-              );
+              return <option value={item.id}>{item.name}</option>;
             })}
           </select>
         </label>
       </form>
-      <button
-        disabled={disabled}
-        type="button"
-        onClick={() => handleClick(values)}
-      >
+      <button type="button" onClick={() => handleClick(values)}>
         добавить
       </button>
     </div>
   );
 }
-
-// https://reactjs.org/docs/forms.html#the-select-tag

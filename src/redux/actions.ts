@@ -4,8 +4,9 @@ const TRANSFER_WORKER = "TRANSFER_WORKER";
 const ADD_WORKER = "ADD_WORKER";
 const REMOVE_WORKER = "REMOVE_WORKER";
 const EDIT_WORKER = "EDIT_WORKER";
-const ADD_COMPANY = "ADD_COMPANY";
 const SELECTED_TEAM = "SELECTED_TEAM";
+const ADD_NOTIFICATION = "ADD_NOTIFICATION";
+const REMOVE_NOTIFICATION = "REMOVE_NOTIFICATION";
 
 export interface ITransferWorkerAction {
   type: typeof TRANSFER_WORKER;
@@ -82,12 +83,38 @@ export const selectedTeamId = function (selectedTeamId: ITeamId) {
   };
 };
 
+export interface IAddNotification {
+  type: typeof ADD_NOTIFICATION;
+  notification: string;
+}
+
+export const addNotification = function (notification: string) {
+  return {
+    type: "ADD_NOTIFICATION",
+    notification,
+  };
+};
+
+export interface IRemoveNotification {
+  type: typeof REMOVE_NOTIFICATION;
+  notification: string;
+}
+
+export const removeNotification = function (notification: string) {
+  return {
+    type: "REMOVE_NOTIFICATION",
+    notification,
+  };
+};
+
 export type IWorkerAction =
   | ITransferWorkerAction
   | IAddWorkerAction
   | IRemoveWorkerAction
   | IEditWorkerAction
-  | ISelectedTeamAction;
+  | ISelectedTeamAction
+  | IAddNotification
+  | IRemoveNotification;
 
 // https://github.com/erikras/ducks-modular-redux
 // https://redux-toolkit.js.org/

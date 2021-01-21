@@ -1,8 +1,9 @@
-import { createStore } from "redux";
+import { createStore, applyMiddleware } from "redux";
+import { composeWithDevTools } from "redux-devtools-extension";
 import { reducer } from "./reducer";
 
 export type IWorkerId = number;
-export type ITeamId = number;
+export type ITeamId = string;
 export type IBranchId = number;
 export type ICompanyId = number;
 
@@ -32,6 +33,7 @@ export interface ICompany {
 
 export interface IApplicationState {
   selectedTeamId: ITeamId | null;
+  notification: string | null;
   workers: IWorker[];
   teams: ITeam[];
   branches: IBranch[];
@@ -39,110 +41,111 @@ export interface IApplicationState {
 }
 
 export const initialState: IApplicationState = {
-  selectedTeamId: 1,
+  selectedTeamId: "1",
+  notification: "Сотрудник удален",
   workers: [
     {
       id: 1,
       name: "Алексей",
       lastName: "Иванов",
-      teamId: 1,
+      teamId: "1",
     },
     {
       id: 2,
       name: "Василий",
       lastName: "Струков",
-      teamId: 1,
+      teamId: "1",
     },
     {
       id: 3,
       name: "Дмитрий",
       lastName: "Смирнов",
-      teamId: 1,
+      teamId: "1",
     },
     {
       id: 4,
       name: "Алексей",
       lastName: "Иванов",
-      teamId: 2,
+      teamId: "2",
     },
     {
       id: 5,
       name: "Василий",
       lastName: "Струков",
-      teamId: 2,
+      teamId: "2",
     },
     {
       id: 6,
       name: "Дмитрий",
       lastName: "Смирнов",
-      teamId: 3,
+      teamId: "3",
     },
     {
       id: 7,
       name: "Алексей",
       lastName: "Иванов",
-      teamId: 3,
+      teamId: "3",
     },
     {
       id: 8,
       name: "Василий",
       lastName: "Струков",
-      teamId: 4,
+      teamId: "4",
     },
     {
       id: 9,
       name: "Дмитрий",
       lastName: "Смирнов",
-      teamId: 5,
+      teamId: "5",
     },
     {
       id: 10,
       name: "Алексей",
       lastName: "Иванов",
-      teamId: 5,
+      teamId: "5",
     },
     {
       id: 11,
       name: "Василий",
       lastName: "Струков",
-      teamId: 5,
+      teamId: "5",
     },
     {
       id: 12,
       name: "Дмитрий",
       lastName: "Смирнов",
-      teamId: 6,
+      teamId: "6",
     },
   ],
 
   teams: [
     {
-      id: 1,
+      id: "1",
       name: "Основная бригада",
       branchId: 1,
     },
     {
-      id: 2,
+      id: "2",
       name: "Запасная бригада",
       branchId: 1,
     },
     {
-      id: 3,
+      id: "3",
       name: "Основная бригада",
       branchId: 2,
     },
     {
-      id: 4,
+      id: "4",
       name: "Запасная бригада",
       branchId: 2,
     },
     {
-      id: 5,
+      id: "5",
       name: "Основная бригада",
       branchId: 3,
     },
     {
-      id: 6,
+      id: "6",
       name: "Основная бригада",
       branchId: 4,
     },
@@ -183,4 +186,17 @@ export const initialState: IApplicationState = {
   ],
 };
 
-export const store = createStore(reducer);
+const ls = localStorage.getItem("store");
+const stateFormLocalstorage = ls === null ? undefined : JSON.parse(ls);
+export const store = createStore(
+  reducer,
+  stateFormLocalstorage,
+  composeWithDevTools(
+    applyMiddleware(...[])
+    // other store enhancers if any
+  )
+);
+
+store.subscribe(() => {
+  localStorage.setItem("store", JSON.stringify(store.getState()));
+});

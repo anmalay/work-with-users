@@ -1,6 +1,6 @@
 import React from "react";
-import { useDispatch, useSelector } from "react-redux";
-import { ICompanyId, IBranch, IApplicationState } from "./redux/store";
+import { useSelector } from "react-redux";
+import { ICompanyId, IApplicationState } from "./redux/store";
 import { Teams } from "./Teams";
 
 interface IDepartmentsProps {
@@ -15,7 +15,7 @@ export function Departments({ id }: IDepartmentsProps) {
   return (
     <ul>
       {branches.map((item) => (
-        <li>
+        <li key={item.id}>
           <span>{item.name}</span>
           <Teams id={item.id} />
         </li>

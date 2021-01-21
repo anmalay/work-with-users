@@ -22,7 +22,7 @@ export function Teams({ id }: ITeamsProps) {
   return (
     <ul>
       {teams.map((item) => (
-        <li>
+        <li key={item.id}>
           <button type="button" onClick={() => handleClick(item.id)}>
             {item.name}
           </button>

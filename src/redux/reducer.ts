@@ -1,13 +1,13 @@
 import { initialState, IApplicationState } from "./store";
 import { IWorkerAction } from "./actions";
+import { stat } from "fs";
 
 export function reducer(
   state: IApplicationState = initialState,
   action: IWorkerAction
 ): IApplicationState {
   if (action.type === "ADD_WORKER") {
-    console.log(">>>", action.worker);
-
+    console.log("добавить сотрудника", action.worker);
     return {
       ...state,
       workers: [...state.workers, action.worker],
@@ -53,6 +53,20 @@ export function reducer(
     return {
       ...state,
       selectedTeamId: action.selectedTeamId,
+    };
+  }
+
+  if (action.type === "ADD_NOTIFICATION") {
+    return {
+      ...state,
+      notification: action.notification,
+    };
+  }
+
+  if (action.type === "REMOVE_NOTIFICATION") {
+    return {
+      ...state,
+      notification: null,
     };
   }
 
